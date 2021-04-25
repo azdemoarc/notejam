@@ -51,8 +51,7 @@ stages:
     - task: CmdLine@2
       displayName: 'Run Tests'
       inputs:
-        script: 'pip install pytest && pytest tests.py --doctest-modules --junitxml=junit/test-results.xml'
-        workingDirectory: 'flask'
+        script: 'cd flask && pip install pytest && pytest tests.py --doctest-modules --junitxml=junit/test-results.xml'
     - task: PublishTestResults@2
       inputs:
         testResultsFormat: 'JUnit'

@@ -86,3 +86,10 @@ stages:
               azureSubscription: $(azureServiceConnectionId)
               appName: $(webAppName)
               package: $(Pipeline.Workspace)/drop/$(Build.BuildId).zip
+              RuntimeStack: 'PYTHON|3.6'
+              StartupCommand: 'gunicorn --bind=0.0.0.0 --timeout 600 runserver:app'
+              ScriptType: 'Inline Script'
+              InlineScript: 'python db.py'
+              AppSettings: '-SCM_DO_BUILD_DURING_DEPLOYMENT "true"'
+
+

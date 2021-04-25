@@ -89,15 +89,4 @@ stages:
               RuntimeStack: 'PYTHON|3.6'
               StartupCommand: 'gunicorn --bind=0.0.0.0 --timeout 600 runserver:app'
               AppSettings: '-SCM_DO_BUILD_DURING_DEPLOYMENT "true"'
-          - task: CmdLine@2
-            displayName: 'Run Tests'
-            inputs:
-              script: 'ls && pip install pytest && pytest tests.py --doctest-modules --junitxml=junit/test-results.xml'
-          
-          - task: PublishTestResults@2
-            displayName: 'Publish test results'
-            inputs:
-              testResultsFormat: 'JUnit'
-              testResultsFiles: '**/TEST-*.xml'
-
 

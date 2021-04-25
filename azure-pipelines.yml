@@ -45,8 +45,15 @@ stages:
         python -m pip install --upgrade pip
         pip install setup
         pip install -r requirements.txt
+        pip install pytest && pytest tests.py --doctest-modules --junitxml=junit/test-results.xml
       workingDirectory: 'flask'
-      displayName: "Install requirements"
+      displayName: "Install requirements and run tests"
+      
+    - task: PublishTestResults@2
+      inputs:
+        testResultsFormat: 'JUnit'
+        testResultsFiles: 'test-results.xml'
+        searchFolder: 'flask/junit'
 
     - task: ArchiveFiles@2
       displayName: 'Archive files'
@@ -91,5 +98,15 @@ stages:
               ScriptType: 'Inline Script'
               InlineScript: 'python db.py'
               AppSettings: '-SCM_DO_BUILD_DURING_DEPLOYMENT "true"'
+          - task: CmdLine@2
+            displayName: 'Run Tests'
+            inputs:
+              script: 'pip install pytest && pytest tests.py --doctest-modules --junitxml=junit/test-results.xml'
+          
+          - task: PublishTestResults@2
+            displayName: 'Publish test results'
+            inputs:
+              testResultsFormat: 'JUnit'
+              testResultsFiles: '**/TEST-*.xml'
 
 

@@ -45,13 +45,10 @@ stages:
         python -m pip install --upgrade pip
         pip install setup
         pip install -r requirements.txt
+        pip install pytest && pytest tests.py --doctest-modules --junitxml=junit/test-results.xml
       workingDirectory: 'flask'
-      displayName: "Install requirements"
-
-    - task: CmdLine@2
-      displayName: 'Run Tests'
-      inputs:
-        script: 'cd flask && pip install pytest && pytest tests.py --doctest-modules --junitxml=junit/test-results.xml'
+      displayName: "Install requirements and run tests"
+      
     - task: PublishTestResults@2
       inputs:
         testResultsFormat: 'JUnit'
